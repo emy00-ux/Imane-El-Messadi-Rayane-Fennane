@@ -1,0 +1,94 @@
+@font-face {
+  font-family: 'InconsolataLocal';
+  src: local('Inconsolata'), url('./assets/inconsolata.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+:root{
+  --bg-top: #0f1724; /* deep navy */
+  --bg-bottom: #0b1a2b; /* darker blue */
+  --accent: #6ee7b7; /* mint accent */
+  --muted: #94a3b8;
+  --panel: rgba(255,255,255,0.06);
+  --glass: rgba(255,255,255,0.06);
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: InconsolataLocal, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
+  color: #e6eef8;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* make canvas cover and visually sit above background */
+canvas {
+  display: block;
+  touch-action: none;
+}
+
+/* Floating piano-toggle button (svg icon). Styled cleanly. */
+#mouse-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 48px;
+  height: 44px;
+  padding: 8px 10px;
+  background: linear-gradient(180deg,#ffffffee,#ffffffcc);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(2,6,23,0.5), inset 0 -1px 0 rgba(0,0,0,0.06);
+  border: 1px solid rgba(16,24,40,0.6);
+  cursor: pointer;
+  transition: transform .14s ease, box-shadow .14s ease, opacity .12s ease;
+}
+#mouse-toggle:hover{ transform: translateY(-2px); box-shadow: 0 12px 30px rgba(2,6,23,0.6); }
+#mouse-toggle[aria-pressed="true"]{ background: linear-gradient(180deg,var(--accent), #3ee6a0); color: #042023; }
+#mouse-toggle svg { filter: drop-shadow(0 1px 0 rgba(0,0,0,0.2)); width:20px; height:20px; }
+
+/* Visible label next to icon to make purpose clear */
+#mouse-toggle .btn-label{
+  font-size: 13px;
+  color: #042023;
+  font-weight: 600;
+  white-space: nowrap;
+}
+#mouse-toggle[aria-pressed="false"] .btn-label{ color: #042023; }
+#mouse-toggle[aria-pressed="true"] .btn-label{ color: #042023; }
+
+/* WAM GUI container styling (behind canvas) */
+#wam-gui-container {
+  transition: transform .2s ease, opacity .2s ease;
+  backdrop-filter: blur(6px) saturate(120%);
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(2,6,23,0.5);
+}
+
+/* On-screen HUD for help + cutoff display */
+.hud {
+  position: fixed;
+  left: 20px;
+  top: 18px;
+  z-index: 2500;
+  background: var(--panel);
+  padding: 8px 12px;
+  border-radius: 8px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.hud .help { color: #e6eef8; font-weight: 600; }
+
+/* Piano area visual tweaks */
+/* ensure piano drawings look good on dark bg */
+.piano-overlay { pointer-events: none; }
+
+/* small screen adjustments */
+@media (max-width:700px){
+  #mouse-toggle{ width:40px; height:40px; }
+}
